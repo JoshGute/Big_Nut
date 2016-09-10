@@ -3,7 +3,6 @@ using System.Collections;
 
 public class PlayerController : MonoBehaviour
 {
-    private Rigidbody rb;
     private float KeyAxisH;
     private float KeyAxisV;
 
@@ -14,22 +13,12 @@ public class PlayerController : MonoBehaviour
     public string Jump = "Jump_P1";
     public string GodMode = "God_P1";
 
-    private bool bDisabled = false;
-
-    public int fLifetime;
-
+    public bool bDisabled = false;
 
     public BodyScript bBody;
     public GunScript gGun;
     public LegScript lLeg;
     public SwordScript sSword;
-	// Use this for initialization
-	void Start ()
-    {
-        rb = GetComponent<Rigidbody>();
-        rb.freezeRotation = true;
-        InvokeRepeating("updateLifeTime", 0, 1);
-    }
 	
 	// Update is called once per frame
 	void Update ()
@@ -41,7 +30,7 @@ public class PlayerController : MonoBehaviour
 
             if (KeyAxisH != 0)
             {
-                rb.AddForce((transform.forward * lLeg.fMoveSpeed) * KeyAxisH);
+               bBody.rb.AddForce((bBody.transform.forward * bBody.fMoveSpeed) * KeyAxisH);
             }
 
             if (Input.GetButtonDown(Jump))
@@ -52,9 +41,13 @@ public class PlayerController : MonoBehaviour
             {
                 inputManager(2);
             }
-            if (Input.GetKeyDown(KeyCode.Minus))
+            if(Input.GetButtonDown(Stab))
             {
                 inputManager(3);
+            }
+            if (Input.GetKeyDown(KeyCode.Minus))
+            {
+                inputManager(4);
             }
         }
     }
@@ -65,15 +58,15 @@ public class PlayerController : MonoBehaviour
         {
             case 1:
                 {
-                    if(lLeg.bGrounded)
+                    if(bBody.bGrounded)
                     {
-                        rb.AddForce(transform.up * lLeg.fJumpSpeed);
+                        bBody.rb.AddForce(transform.up * bBody.fJumpSpeed);
                     }
-                    else if(!lLeg.bGrounded && lLeg.iJumps > 0)
+                    else if(!bBody.bGrounded && bBody.iJumps > 0)
                     {
-                        StartCoroutine(Dash(lLeg.fDashTime));
-                        rb.AddForce(new Vector3(KeyAxisH, KeyAxisV, 0) * lLeg.fJumpSpeed);
-                        --lLeg.iJumps;
+                        StartCoroutine(Dash(bBody.fDashTime));
+                        bBody.rb.AddForce(new Vector3(KeyAxisH, KeyAxisV, 0) * bBody.fJumpSpeed);
+                        --bBody.iJumps;
                     }
                     break;
                 }
@@ -84,6 +77,11 @@ public class PlayerController : MonoBehaviour
                 }
             case 3:
                 {
+                    sSword.Stab();
+                    break;
+                }
+            case 4:
+                {
                     bBody.Explode();
                     bDisabled = true;
                     break;
@@ -91,33 +89,10 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void updateLifeTime()
-    {
-        print(fLifetime);
-        if (fLifetime > 0)
-        {
-            --fLifetime;
-        }
-        else if(fLifetime <= 0)
-        {
-            bBody.Explode();
-            bDisabled = true;
-            CancelInvoke();
-        }
-    }
-
     IEnumerator Dash(float dashTime)
     {
-        rb.useGravity = false;
+        bBody.rb.useGravity = false;
         yield return new WaitForSeconds(dashTime);
-        rb.useGravity = true;
-    }
-
-    void OnCollisionEnter(Collision collision)
-    {
-        if(collision.gameObject.tag == "Bullet")
-        {
-            updateLifeTime();
-        }
+        bBody.rb.useGravity = true;
     }
 }

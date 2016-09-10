@@ -12,4 +12,10 @@ public class SwordScript : MonoBehaviour {
 	void Update () {
 	
 	}
+
+    public void Stab()
+    {
+        print("stabby");
+    }
+
 }
