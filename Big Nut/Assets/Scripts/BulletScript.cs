@@ -3,6 +3,8 @@ using System.Collections;
 
 public class BulletScript : MonoBehaviour
 {
+
+    public string sOwner;
     public float fSpeed = 10.0f;
     private Rigidbody rb;
 

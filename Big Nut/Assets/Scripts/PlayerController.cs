@@ -1,8 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
+using XInputDotNetPure;
 
 public class PlayerController : MonoBehaviour
 {
+    public PlayerIndex playerIndex;
+
     private float KeyAxisH;
     private float KeyAxisV;
 
@@ -11,44 +14,103 @@ public class PlayerController : MonoBehaviour
     public string Shoot = "Shoot_P1";
     public string Stab = "Stab_P1";
     public string Jump = "Jump_P1";
-    public string GodMode = "God_P1";
+    //public string GodMode = "God_P1";
 
     public bool bDisabled = false;
 
     public BodyScript bBody;
     public GunScript gGun;
-    public LegScript lLeg;
     public SwordScript sSword;
-	
-	// Update is called once per frame
-	void Update ()
+
+    private GamePadState state;
+    private GamePadState prevState;
+
+    private bool bController;
+
+
+    void Start()
+    {
+        bBody.sOwner = tag;
+        gGun.sOwner = tag;
+        sSword.sOwner = tag;
+    }
+    void Update ()
     {
         if (!bDisabled)
         {
-            KeyAxisH = Input.GetAxis(Horizontal);
-            KeyAxisV = Input.GetAxis(Vertical);
+            GamePadState testState = GamePad.GetState(playerIndex);
+            if (testState.IsConnected)
+            {
+                bController = true;
+            }
+            else if (!testState.IsConnected)
+            {
+                bController = false;
+            }
+
+            if(!bController)
+            {
+                KeyAxisH = Input.GetAxis(Horizontal);
+                KeyAxisV = Input.GetAxis(Vertical);
+
+                if (Input.GetButtonDown(Jump))
+                {
+                    inputManager(1);
+                }
+                if (Input.GetButtonDown(Shoot))
+                {
+                    inputManager(2);
+                }
+                if (Input.GetButtonDown(Stab))
+                {
+                    inputManager(3);
+                }
+                if (Input.GetKeyDown(KeyCode.Minus))
+                {
+                    inputManager(4);
+                }
+            }
+
+            else if(bController)
+            {
+                prevState = state;
+                state = GamePad.GetState(playerIndex);
+
+                KeyAxisH = state.ThumbSticks.Left.X;
+                KeyAxisV = state.ThumbSticks.Left.Y;
+
+                if (prevState.Buttons.A == ButtonState.Released && state.Buttons.A == ButtonState.Pressed)
+                {
+                    inputManager(1);
+                }
+                if (prevState.Buttons.RightShoulder == ButtonState.Released && state.Buttons.RightShoulder == ButtonState.Pressed)
+                {
+                    inputManager(2);
+                }
+                if (prevState.Buttons.LeftShoulder == ButtonState.Released && state.Buttons.LeftShoulder == ButtonState.Pressed)
+                {
+                    inputManager(3);
+                }
+
+            }
 
             if (KeyAxisH != 0)
             {
-               bBody.rb.AddForce((bBody.transform.forward * bBody.fMoveSpeed) * KeyAxisH);
+                if (KeyAxisH > 0)
+                {
+                    bBody.transform.localEulerAngles = new Vector3(bBody.transform.rotation.x, 0, bBody.transform.rotation.z);
+                    bBody.rb.AddForce((bBody.transform.forward * bBody.fMoveSpeed) * KeyAxisH);
+                }
+                else if (KeyAxisH < 0)
+                {
+                    bBody.transform.localEulerAngles = new Vector3(bBody.transform.rotation.x, 180, bBody.transform.rotation.z);
+                    bBody.rb.AddForce((bBody.transform.forward * bBody.fMoveSpeed) * -KeyAxisH);
+                }
+
+                
             }
 
-            if (Input.GetButtonDown(Jump))
-            {
-                inputManager(1);
-            }
-            if (Input.GetButtonDown(Shoot))
-            {
-                inputManager(2);
-            }
-            if(Input.GetButtonDown(Stab))
-            {
-                inputManager(3);
-            }
-            if (Input.GetKeyDown(KeyCode.Minus))
-            {
-                inputManager(4);
-            }
+
         }
     }
 

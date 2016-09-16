@@ -3,6 +3,8 @@ using System.Collections;
 
 public class GunScript : MonoBehaviour
 {
+    public string sOwner;
+
     public float fFireRate;
     public GameObject gBulletPattern;
 
@@ -11,8 +13,10 @@ public class GunScript : MonoBehaviour
         float fNextShot = 0.0f;
         if (Time.time > fNextShot)
         {
+
             fNextShot = Time.time + fFireRate;
-            Instantiate(gBulletPattern, transform.position, transform.rotation);
+            GameObject bulletPattern = Instantiate(gBulletPattern, transform.position, transform.rotation) as GameObject;
+            bulletPattern.gameObject.GetComponent<BulletScript>().sOwner = sOwner;
         }
     }
 }

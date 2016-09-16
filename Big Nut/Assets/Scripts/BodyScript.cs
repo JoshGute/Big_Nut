@@ -3,6 +3,8 @@ using System.Collections;
 
 public class BodyScript : MonoBehaviour
 {
+    public string sOwner;
+
     public Rigidbody rb;
     public float fLifetime;
 
@@ -22,7 +24,6 @@ public class BodyScript : MonoBehaviour
 	
     public void updateLifeTime()
     {
-        print(fLifetime);
         if (fLifetime > 0)
         {
             --fLifetime;
@@ -51,10 +52,7 @@ public class BodyScript : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "Bullet")
-        {
-            updateLifeTime();
-        }
+
 
         if (collision.gameObject.tag == "Ground")
         {
@@ -67,8 +65,15 @@ public class BodyScript : MonoBehaviour
     {
         if (collision.gameObject.tag == "Ground")
         {
-            bGrounded = false;
-            
+            bGrounded = false;   
+        }
+    }
+
+    void OnTriggerEnter(Collider trigger)
+    {
+        if (trigger.gameObject.tag == "Bullet" && trigger.gameObject.GetComponent<BulletScript>().sOwner != sOwner)
+        {
+            updateLifeTime();
         }
     }
 }
