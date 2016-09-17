@@ -73,6 +73,7 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\BodyScript.cs" />
     <Compile Include="Assets\Scripts\BulletScript.cs" />
+    <Compile Include="Assets\Scripts\GunPattern.cs" />
     <Compile Include="Assets\Scripts\GunScript.cs" />
     <Compile Include="Assets\Scripts\PlayerController.cs" />
     <Compile Include="Assets\Scripts\SwordScript.cs" />

@@ -75,7 +75,6 @@ public class PlayerController : MonoBehaviour
             {
                 prevState = state;
                 state = GamePad.GetState(playerIndex);
-
                 KeyAxisH = state.ThumbSticks.Left.X;
                 KeyAxisV = state.ThumbSticks.Left.Y;
 
@@ -95,19 +94,17 @@ public class PlayerController : MonoBehaviour
             }
 
             if (KeyAxisH != 0)
-            {
+            { 
                 if (KeyAxisH > 0)
                 {
-                    bBody.transform.localEulerAngles = new Vector3(bBody.transform.rotation.x, 0, bBody.transform.rotation.z);
-                    bBody.rb.AddForce((bBody.transform.forward * bBody.fMoveSpeed) * KeyAxisH);
+                    bBody.rb.velocity = new Vector3((KeyAxisH * bBody.fMoveSpeed * Time.deltaTime), bBody.rb.velocity.y, bBody.rb.velocity.z);
+                    bBody.transform.localEulerAngles = new Vector3(bBody.transform.rotation.x, 90, bBody.transform.rotation.z);
                 }
                 else if (KeyAxisH < 0)
                 {
-                    bBody.transform.localEulerAngles = new Vector3(bBody.transform.rotation.x, 180, bBody.transform.rotation.z);
-                    bBody.rb.AddForce((bBody.transform.forward * bBody.fMoveSpeed) * -KeyAxisH);
+                    bBody.rb.velocity = new Vector3((KeyAxisH * bBody.fMoveSpeed * Time.deltaTime), bBody.rb.velocity.y, bBody.rb.velocity.z);
+                    bBody.transform.localEulerAngles = new Vector3(bBody.transform.rotation.x, -90, bBody.transform.rotation.z);
                 }
-
-                
             }
 
 
@@ -122,12 +119,14 @@ public class PlayerController : MonoBehaviour
                 {
                     if(bBody.bGrounded)
                     {
-                        bBody.rb.AddForce(transform.up * bBody.fJumpSpeed);
+                        //bBody.rb.AddForce(transform.up * bBody.fJumpSpeed);
+                        bBody.rb.velocity = new Vector3(0, bBody.fJumpSpeed, 0);
                     }
                     else if(!bBody.bGrounded && bBody.iJumps > 0)
                     {
                         StartCoroutine(Dash(bBody.fDashTime));
-                        bBody.rb.AddForce(new Vector3(KeyAxisH, KeyAxisV, 0) * bBody.fJumpSpeed);
+                        //bBody.rb.AddForce(new Vector3(KeyAxisH, KeyAxisV, 0) * bBody.fJumpSpeed);
+                        bBody.rb.velocity = new Vector3(KeyAxisH, KeyAxisV, 0) * bBody.fJumpSpeed;
                         --bBody.iJumps;
                     }
                     break;
@@ -153,6 +152,7 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator Dash(float dashTime)
     {
+        bBody.rb.velocity = new Vector3(0, 0, 0);
         bBody.rb.useGravity = false;
         yield return new WaitForSeconds(dashTime);
         bBody.rb.useGravity = true;
