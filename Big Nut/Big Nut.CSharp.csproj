@@ -76,7 +76,9 @@
     <Compile Include="Assets\Scripts\GunPattern.cs" />
     <Compile Include="Assets\Scripts\GunScript.cs" />
     <Compile Include="Assets\Scripts\PlayerController.cs" />
+    <Compile Include="Assets\Scripts\Spawnpoint.cs" />
     <Compile Include="Assets\Scripts\SwordScript.cs" />
+    <Compile Include="Assets\Scripts\TeamManager.cs" />
     <Compile Include="Assets\XInputDotNet\Examples\XInputTestCS.cs" />
   </ItemGroup>
   <ItemGroup>

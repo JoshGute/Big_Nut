@@ -14,6 +14,10 @@ public class BodyScript : MonoBehaviour
     public float fMoveSpeed;
     public float fJumpSpeed;
     public float fDashTime;
+
+    public delegate void DeathAction(string sOwner_);
+    public static event DeathAction Die;
+
     // Use this for initialization
     void Start ()
     {
@@ -48,6 +52,8 @@ public class BodyScript : MonoBehaviour
         transform.rotation = Random.rotation;
         transform.DetachChildren();
         rb.AddExplosionForce(300.0f, transform.position, 30.0f);
+        Die(sOwner);
+        Destroy(gameObject);
     }
 
     void OnCollisionEnter(Collision collision)
@@ -68,12 +74,12 @@ public class BodyScript : MonoBehaviour
             bGrounded = false;   
         }
     }
-
-    void OnTriggerEnter(Collider trigger)
+    //Deprecated. Use the new damage function linus wrote.
+    /*void OnTriggerEnter(Collider trigger)
     {
         if (trigger.gameObject.tag == "Bullet" && trigger.gameObject.GetComponent<BulletScript>().sOwner != sOwner)
         {
             updateLifeTime();
         }
-    }
+    }*/
 }
