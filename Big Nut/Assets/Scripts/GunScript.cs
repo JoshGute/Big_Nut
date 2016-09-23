@@ -5,11 +5,13 @@ public class GunScript : MonoBehaviour
 {
     public string sOwner;
 
+    public GameObject PatternSpawn;
+
     public float fFireRate;
     private float fTimerForNext = 0;
     private bool bShot = true;
 
-    public GameObject gBulletPattern;
+    public GunPattern gBulletPattern;
 
     void Update()
     {
@@ -21,11 +23,11 @@ public class GunScript : MonoBehaviour
 
     public void Shoot()
     {
-
         if (fTimerForNext >= fFireRate)
         {
-            GameObject bulletPattern = Instantiate(gBulletPattern, transform.position, transform.rotation) as GameObject;
-            bulletPattern.gameObject.GetComponent<BulletScript>().sOwner = sOwner;
+            GameObject bulletPattern = Instantiate(gBulletPattern, PatternSpawn.transform.position, transform.rotation) as GameObject;
+            //bulletPattern.GetComponent<GunPattern>().sOwner = sOwner;
+            //bulletPattern.SetActive(false);
             bShot = true;
             fTimerForNext = 0;
         }
