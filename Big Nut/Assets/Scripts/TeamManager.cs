@@ -6,7 +6,9 @@ public class TeamManager : MonoBehaviour
     public PlayerController pOwner;
     public GameObject[] gTeam;
     public Spawnpoint[] sSpawnPoints;
+    private Spawnpoint[] sSafeSpawns;
     private int iDeaths;
+    private bool bRobotSpawned;
 	// Use this for initialization
 
     void OnEnable()
@@ -25,23 +27,22 @@ public class TeamManager : MonoBehaviour
 	
     private void Spawn(string sOwner_)
     {
-        int randNum = Random.Range(0, sSpawnPoints.Length);
-
-        for (int i = 0; i < sSpawnPoints.Length; i++)
+        if (sOwner_ == pOwner.tag)
         {
-            if (sSpawnPoints[randNum].bIsSafe == true && sOwner_ == pOwner.tag)
+            sSafeSpawns = new Spawnpoint[sSpawnPoints.Length];
+
+            for (int i = 0; i < sSpawnPoints.Length; i++)
             {
-                GameObject gRobot = Instantiate(gTeam[iDeaths], sSpawnPoints[randNum].transform.position, gTeam[iDeaths].transform.rotation) as GameObject;
-                pOwner.TagRobot(gRobot);
-                ++iDeaths;
-                break;
+                if (sSpawnPoints[i].bIsSafe)
+                {
+                    sSafeSpawns[i] = sSpawnPoints[i];
+                }
             }
 
-            else
-            {
-                randNum = Random.Range(0, sSpawnPoints.Length);
-            }
-            print(randNum);
+            int randNum = Random.Range(0, sSafeSpawns.Length);
+            GameObject gRobot = Instantiate(gTeam[iDeaths], sSafeSpawns[randNum].transform.position, gTeam[iDeaths].transform.rotation) as GameObject;
+            pOwner.TagRobot(gRobot);
+            ++iDeaths;
         }
     }
 }
