@@ -7,7 +7,7 @@ public class TeamManager : MonoBehaviour
     public GameObject[] gTeam;
     public Spawnpoint[] sSpawnPoints;
     private Spawnpoint[] sSafeSpawns;
-    private int iDeaths;
+    public int iDeaths;
     private bool bRobotSpawned;
 	// Use this for initialization
 

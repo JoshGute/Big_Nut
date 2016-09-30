@@ -448,6 +448,26 @@ Prefab:
       propertyPath: PlayerTwo
       value: 
       objectReference: {fileID: 38564201}
+    - target: {fileID: 114000013753539094, guid: 332134ab5684e394492f093235ddd913,
+        type: 2}
+      propertyPath: P1hp
+      value: 
+      objectReference: {fileID: 1776652969}
+    - target: {fileID: 114000013753539094, guid: 332134ab5684e394492f093235ddd913,
+        type: 2}
+      propertyPath: P2hp
+      value: 
+      objectReference: {fileID: 2066237409}
+    - target: {fileID: 114000013753539094, guid: 332134ab5684e394492f093235ddd913,
+        type: 2}
+      propertyPath: P1robs
+      value: 
+      objectReference: {fileID: 1469235676}
+    - target: {fileID: 114000013753539094, guid: 332134ab5684e394492f093235ddd913,
+        type: 2}
+      propertyPath: P2robs
+      value: 
+      objectReference: {fileID: 1615563746}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 332134ab5684e394492f093235ddd913, type: 2}
   m_IsPrefabParent: 0
@@ -543,6 +563,11 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 5, y: 5, z: 5}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &1469235676 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1000010519141212, guid: 332134ab5684e394492f093235ddd913,
+    type: 2}
+  m_PrefabInternal: {fileID: 642133958}
 --- !u!1 &1485632597
 GameObject:
   m_ObjectHideFlags: 0
@@ -606,6 +631,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 3
+--- !u!1 &1615563746 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1000011809952418, guid: 332134ab5684e394492f093235ddd913,
+    type: 2}
+  m_PrefabInternal: {fileID: 642133958}
 --- !u!1 &1683947884
 GameObject:
   m_ObjectHideFlags: 0
@@ -633,12 +663,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96add789cccbe9447a07677343d992a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerIndex: 1
-  Horizontal: Horizontal_P2
-  Vertical: Vertical_P2
-  Shoot: Shoot_P2
-  Stab: Stab_P2
-  Jump: Jump_P2
+  playerIndex: 0
+  Horizontal: Horizontal_P1
+  Vertical: Vertical_P1
+  Shoot: Shoot_P1
+  Stab: Stab_P1
+  Jump: Jump_P1
   bDisabled: 0
   bBody: {fileID: 0}
   gGun: {fileID: 0}
@@ -656,6 +686,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 5
+--- !u!1 &1776652969 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1000012987913562, guid: 332134ab5684e394492f093235ddd913,
+    type: 2}
+  m_PrefabInternal: {fileID: 642133958}
 --- !u!1 &1808512095
 GameObject:
   m_ObjectHideFlags: 0
@@ -748,3 +783,8 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 62ddbf20cc3994247bf56d1d9f6411ba, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &2066237409 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1000010467507274, guid: 332134ab5684e394492f093235ddd913,
+    type: 2}
+  m_PrefabInternal: {fileID: 642133958}
