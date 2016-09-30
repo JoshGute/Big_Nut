@@ -7,18 +7,18 @@ public class Spawnpoint : MonoBehaviour
 
     void OnTriggerEnter(Collider Coll)
     {
-        if(Coll.tag == "Player1" || Coll.tag == "Player2")
+        if(Coll.gameObject.layer == 10)
         {
-            print("sawn unsafe");
+            //print("sawn unsafe");
             bIsSafe = false;
         }
     }
 
     void OnTriggerExit(Collider Coll)
     {
-        if (Coll.tag == "Player1" || Coll.tag == "Player2")
+        if (Coll.gameObject.layer == 10)
         {
-            print("sawn safe");
+            //print("sawn safe");
             bIsSafe = true;
         }
     }
