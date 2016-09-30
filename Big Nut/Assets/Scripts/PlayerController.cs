@@ -14,7 +14,6 @@ public class PlayerController : MonoBehaviour
     public string Shoot = "Shoot_P1";
     public string Stab = "Stab_P1";
     public string Jump = "Jump_P1";
-    //public string GodMode = "God_P1";
 
     public bool bDisabled = false;
 
@@ -30,9 +29,7 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
-        bBody.sOwner = tag;
-        gGun.sOwner = tag;
-        sSword.sOwner = tag;
+        
     }
     void Update ()
     {
@@ -65,10 +62,6 @@ public class PlayerController : MonoBehaviour
                 {
                     inputManager(3);
                 }
-                if (Input.GetKeyDown(KeyCode.Minus))
-                {
-                    inputManager(4);
-                }
             }
 
             else if(bController)
@@ -90,7 +83,10 @@ public class PlayerController : MonoBehaviour
                 {
                     inputManager(3);
                 }
-
+                if (prevState.Buttons.Back == ButtonState.Released && state.Buttons.Back == ButtonState.Pressed)
+                {
+                    inputManager(4);
+                }
             }
 
             if (KeyAxisH != 0)
@@ -144,10 +140,27 @@ public class PlayerController : MonoBehaviour
             case 4:
                 {
                     bBody.Explode();
-                    bDisabled = true;
+                    //bDisabled = true;
                     break;
                 }  
         }
+    }
+
+    public void TagRobot(GameObject gRobot_)
+    {
+        bDisabled = false;
+        bBody = gRobot_.GetComponent<BodyScript>();
+        gGun = gRobot_.GetComponentInChildren<GunScript>();
+        sSword = gRobot_.GetComponentInChildren<SwordScript>();
+
+        //this is super superfulous(fuck spelling lmao) and and probably be made into tags. 
+        bBody.sOwner = tag;
+        gGun.sOwner = tag;
+        sSword.sOwner = tag;
+        //like so
+        bBody.tag = tag;
+        gGun.tag = tag;
+        sSword.tag = tag;
     }
 
     IEnumerator Dash(float dashTime)
